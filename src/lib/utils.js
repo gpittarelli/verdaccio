@@ -70,7 +70,7 @@ function validateName(name: string): boolean {
 
   // all URL-safe characters and "@" for issue #75
   return !(
-    !name.match(/^[-a-zA-Z0-9_.!~*'()@]+$/) ||
+    !name.match(/^[-a-zA-Z0-9_.!~*'()@\/]+$/) ||
     name.charAt(0) === '.' || // ".bin", etc.
     name.charAt(0) === '-' || // "-" is reserved by couchdb
     name === 'node_modules' ||

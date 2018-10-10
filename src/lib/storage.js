@@ -161,6 +161,9 @@ class Storage implements IStorageHandler {
         if (_.isNil(err) && info._distfiles && _.isNil(info._distfiles[filename]) === false) {
           // information about this file exists locally
           serveFile(info._distfiles[filename]);
+        } else if (_.isNil(err) && info._distfiles && _.isNil(info._distfiles[encodeURIComponent(filename)]) === false) {
+          // information about this file exists locally
+          serveFile(info._distfiles[encodeURIComponent(filename)]);
         } else {
           // we know nothing about this file, trying to get information elsewhere
           self._syncUplinksMetadata(name, info, {}, (err, info: Package) => {
