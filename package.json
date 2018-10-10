@@ -1,7 +1,7 @@
 {
-  "name": "verdaccio",
+  "name": "@gpittarelli/verdaccio",
   "version": "3.8.3",
-  "description": "Private npm repository server",
+  "description": "Private npm repository server fork by gpittarelli",
   "author": {
     "name": "Alex Kocharin",
     "email": "alex@kocharin.ru"

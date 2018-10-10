@@ -1,3 +1,8 @@
+# THIS IS A FORK OF [NORMAL VERDACCIO](https://github.com/gpittarelli/verdaccio)
+
+Use normal verdaccio unless you know what this is for. Published under `@gpittarelli/verdaccio`
+
+
 <div align="center">
     <a href="https://www.verdaccio.org/">
         <img src="https://github.com/verdaccio/verdaccio/raw/master/assets/bitmap/verdaccio%402x.png">
