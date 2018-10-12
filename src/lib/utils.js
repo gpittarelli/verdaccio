@@ -137,7 +137,7 @@ function combineBaseUrl(
 
 export function extractTarballFromUrl(url: string) {
   // $FlowFixMe
-  return URL.parse(url).pathname.replace(/^.*\//, '');
+  return URL.parse(url).pathname.replace(/^.*\//, '').replace(/^%40[^%]+%2F/, '');
 }
 
 /**

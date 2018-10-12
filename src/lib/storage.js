@@ -13,7 +13,7 @@ import {checkPackageLocal, publishPackage, checkPackageRemote, cleanUpLinksRef,
 mergeUplinkTimeIntoLocal, generatePackageTemplate} from './storage-utils';
 import {setupUpLinks, updateVersionsHiddenUpLink} from './uplink-util';
 import {mergeVersions} from './metadata-utils';
-import {ErrorCode, normalizeDistTags, validate_metadata, isObject, DIST_TAGS} from './utils';
+import {ErrorCode, extractTarballFromUrl, normalizeDistTags, validate_metadata, isObject, DIST_TAGS} from './utils';
 import type {IStorage, IProxy, IStorageHandler, ProxyList, StringValue} from '../../types';
 import type {
 Versions,
@@ -157,13 +157,24 @@ class Storage implements IStorageHandler {
       localStream.abort();
       // $FlowFixMe
       localStream = null; // we force for garbage collector
+
       self.localStorage.getPackageMetadata(name, (err, info: Package) => {
+        let converted = extractTarballFromUrl(filename);
+        const {_distfiles: distfiles} = info || {};
+        const ourfiles = _.mapKeys(distfiles, (v, k) => extractTarballFromUrl(k));
+
         if (_.isNil(err) && info._distfiles && _.isNil(info._distfiles[filename]) === false) {
           // information about this file exists locally
           serveFile(info._distfiles[filename]);
         } else if (_.isNil(err) && info._distfiles && _.isNil(info._distfiles[encodeURIComponent(filename)]) === false) {
           // information about this file exists locally
           serveFile(info._distfiles[encodeURIComponent(filename)]);
+        } else if (_.isNil(err) && info._distfiles && _.isNil(info._distfiles[converted]) === false) {
+          // information about this file exists locally
+          serveFile(info._distfiles[converted]);
+        } else if (_.isNil(err) && ourfiles && _.isNil(ourfiles[filename]) === false) {
+          // information about this file exists locally
+          serveFile(ourfiles[filename]);
         } else {
           // we know nothing about this file, trying to get information elsewhere
           self._syncUplinksMetadata(name, info, {}, (err, info: Package) => {
